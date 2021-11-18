@@ -1,0 +1,48 @@
+CREATE TABLE customer (
+	customer_id Char(10) PRIMARY KEY,
+	first_name Varchar (50),
+	last_name Varchar (50),
+	email Varchar (50) NOT NULL,
+	street Varchar(50),
+	city Varchar(50),
+	state Char(2),
+	zip Char (5))
+;
+
+CREATE TABLE order_detail (
+	order_id Char(10) PRIMARY KEY,
+	order_date Date,
+	customer_id Char(10) references customer(customer_id),
+	product_name Varchar(50) NOT NULL,
+	ship_address Varchar(100) NOT NULL,
+	status Varchar(20),
+	card_no Decimal(16) NOT NULL,
+	card_type Varchar(15),
+	payment_amount Decimal(16,2) NOT NULL)
+;
+
+INSERT INTO customer(customer_id,first_name,last_name,email,street,city,state,zip)
+	Values (1234567891,'John','Smith','johnsmith123@gmail.com','123 Long Drive','Las Vegas','NV',89138)
+;
+	
+SELECT * FROM customer
+;
+
+INSERT INTO order_detail(order_id,order_date,customer_id,product_name,ship_address,status,card_no,payment_amount)
+	Values (0000000001,'2021-11-17',1234567891,'Nike Air Max Shoe','987 Short Drive Los Angeles CA 90210','payment confirmed',123456789123456,70.99)
+;
+
+SELECT * FROM order_detail
+;
+
+*Test to see if the foreign key in order_detail affects the priamry key table*
+
+SELECT * FROM customer
+JOIN order_detail
+ON customer.customer_id = order_detail.customer_id
+;
+
+*If the user only wants to see name and customer_id*
+
+SELECT customer_id,first_name,last_name FROM customer
+;
